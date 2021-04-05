@@ -67,6 +67,8 @@ sudo apt install git
 sudo apt-get install bison flex libssl-dev bc
     크로스컴파일시 시스템에 필요한 툴
 
+sudo apt-get install gcc-arm-linux-gnueabihf
+
 sudo clone https://github.com/raspberrypi/tools ~/tools
     크로스컴파일에 필요한 툴체인 설치
 ```
