@@ -79,7 +79,7 @@ sudo clone https://github.com/raspberrypi/tools ~/tools
 1. vi ~/.bashrc
     가장 끝 줄(명령모드 G)에 밑의 한 개의 라인 추가
     :KERNEL = kernel7
-    rpi 2이상 kernel7, rpi 1이하 kernel
+    rpi 2이상 kernel7, rpi 1이하 kernel, rpi 4이상 kernel7l
 
 2. echo PATH=\$PATH:~/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabinf-Raspbian/bin >> ~/.bashrc
     PATH 환경변수를 업데이트 시켜 크로스 컴파일에 필요한 파일 위치를 인식시키기
@@ -112,7 +112,7 @@ vir은 3.18.y이상으로 내려받기
 
 
     * .config파일 생성
-        * sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-bcm2709_defconfig
+        * sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-bcm2709_defconfig(rpi4인경우 2711)
     
     
     * 타겟시스템의 커널컴파일 실행
