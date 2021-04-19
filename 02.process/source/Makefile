@@ -1,4 +1,5 @@
-CC = gcc
+CROSS = 
+CC = $(CROSS)gcc
 CFLAGS = 
 LDFLAGS = -lpthread
 
@@ -6,18 +7,19 @@ LDFLAGS = -lpthread
 .c.o :
 	$(CC) -c $(CFLAGS) $<
 
-ALL = fork1 fork exit wait race worace env exec system thread cmd_i cmd_p cmd_t
+#ALL = fork1 fork exit wait race worace env exec system thread cmd_i cmd_p cmd_t
+ALL = fork exit wait race worace env exec system thread cmd_i cmd_p cmd_t
 
 all: $(ALL)
 
-fork1: fork1.o
-	$(CC) -o $@ $< $(LDFLAGS)
+#fork1: fork1.o
+#	$(CC) -o $@ $< $(LDFLAGS)
 
 fork: fork.o
 	$(CC) -o $@ $< $(LDFLAGS)
 
-vfork: vfork.o
-	$(CC) -o $@ $< $(LDFLAGS)
+#vfork: vfork.o
+#	$(CC) -o $@ $< $(LDFLAGS)
 
 exit: exit.o
 	$(CC) -o $@ $< $(LDFLAGS)
