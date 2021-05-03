@@ -78,3 +78,7 @@
     * 새로 구현한 system call을 사용하는 Application 제작
     * 라이브러리 작성
     * Target board에 적재
+
+## Reference
+
+[](https://www.youtube.com/watch?v=lhToWeuWWfw)
