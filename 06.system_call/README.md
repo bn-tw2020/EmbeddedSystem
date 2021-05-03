@@ -128,6 +128,21 @@ module 파일로 이동
 cd lib/modules/5.xx ~폴더로 이동 후 build와 source 파일 삭제
 rm -rf build source (삭제르 안하면 전송간에 시간이 오래 걸림)
 cd ..로 나온 후, scp -r 5.xx/ pi@192.168.35.242:/home/pi
+
+10. 라즈베리파이 접속
+ssh pi@192.168.35.242로 모든 것이 이동 된 것을 확인 가능
+uname -r 명령어로 라즈베리파이 커널버전 확인 가능
+sudo su 최상위 사용자로 변경
+
+11. 파일 정리
+mv *.dtb /boot
+mv *.dtb* /boot/overlays/
+mv 5.xx~~/ /lib/modules/.
+mv zImage /boot/kernel7l.img >> boot폴더에 넣어줘야함
+
+12. 재접속
+sudo reboot
+ssh pi@192.168.35.242
 ```
 
 ## Reference
