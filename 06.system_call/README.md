@@ -19,6 +19,8 @@
 
 ## POSIX API & System Calls
 
+### 1. POSIX API
+
 ```
 1. POSIX API(Application Programming Interface)
   * 유닉스 기반의 표준 운영체제 인터페이스
@@ -34,4 +36,45 @@
 
 <img width="730" alt="스크린샷 2021-05-03 오전 11 53 35" src="https://user-images.githubusercontent.com/66770613/116837634-34c46700-ac06-11eb-9bb7-371c3e6525b7.png">
 
-* 응용 프로그램이
+```
+1. 응용 프로그램이 표준 라이브러리(POSIX API)를 호출합니다.
+2. 표준 라이브러리는 시스템 콜에 인터페이스에 접근합니다.
+3. 시스템 콜 인터페이스는 시스템 콜 핸들러와 시스템 콜 서비스 루틴으로 이루어진다.
+4. 시스템 콜의 해당하는 번호의 시스템 콜 핸들러가 커널에 등록되어있는 서비스 루틴들이 동작합니다.
+```
+
+### 2. System Call
+
+<img width="692" alt="스크린샷 2021-05-03 오후 12 10 24" src="https://user-images.githubusercontent.com/66770613/116838225-9685d080-ac08-11eb-9657-068a8a106ecf.png">
+
+
+```
+1. Linux에서의 system call 처리
+  * Interrupt 처리 메케니즘 사용
+
+2. Interrupt
+  * 주변 장치와 커널이 통신하는 방식 중 하나로 주변 장치가 자신에게 발생하는 비동기적 사건을 kernel에게 알리는 방법
+
+> 주변 장치의 이벤트가 발생했을 때 그 이벤트에 대한 인터럽트 핸들러를 찾고 핸들러를 통해서 서비스 루틴의 동작이 호출됩니다.
+> 이 과정을 통해서 컴퓨터 시스템이 비동기적으로 발생되는 이벤트를 처리할 수 있습니다.
+```
+
+<img width="720" alt="스크린샷 2021-05-03 오후 12 16 02" src="https://user-images.githubusercontent.com/66770613/116838450-583ce100-ac09-11eb-8052-d5558c4e64d0.png">
+
+
+## 실습
+
+* 목적
+  * 기존 커널에서 제공하지 않는 서비스를 유저 어플리케이션에서 제공
+    * 새로운 시스템 콜을 만듬
+
+* 단계
+  * 커널 수정
+    * System call 번호 할당
+    * System call 호출 테이블 등록
+    * System call 호출 함수 구현
+    * Kernel 컴파일 및 target board 적재
+  * User application 제작
+    * 새로 구현한 system call을 사용하는 Application 제작
+    * 라이브러리 작성
+    * Target board에 적재
