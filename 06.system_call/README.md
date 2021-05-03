@@ -81,4 +81,4 @@
 
 ## Reference
 
-![](https://www.youtube.com/watch?v=lhToWeuWWfw)
+![시스템 콜 참고 영상](https://www.youtube.com/watch?v=lhToWeuWWfw)
