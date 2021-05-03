@@ -79,6 +79,57 @@
     * 라이브러리 작성
     * Target board에 적재
 
+```
+1. 필요한 툴 체인설치
+sudo apt-get install make
+sudo apt-get install git
+sudo apt-get install bison flex libssl-dev bc
+sudo apt-get install gcc-arm-linux-gnueabihf
+
+2. 환경설정 필요
+vi ~/.bashrc
+  G눌러서 맨 아래로 이동 후,
+  
+  KERNEL=kernel7l // kernel7l : rpi4, kernel7 : rp2 (rpi3 b+), kernel
+
+추가한 후 , source ~/.bashrc로 적용시키기 (echo $KERNEL)명령어로 확인 가능
+
+3. 커널 소스 필요
+git clone https://www.github.com/raspberrypi/linux
+만약, zip파일을 다운 받았으면 unzip 명령어 이용해 압축 풀기
+
+4 추가 설정
+sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-  bcm2711_defconfig
+vi .config로 확인이 가능
+
+5. 크로스 컴파일 진행
+sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs
+
+6. module 파일 생성
+mkdir ../module
+
+sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf - INSTALL_MOD_PATH=../module modules_install
+확인하기 위해서는 cd module/lib/modules에 버전에 맞게 확인이 가능
+
+그 후, 라즈베리파이로 데이터들을 옮긴뒤 커널을 바꾸고 잘 동작하는지 확인하면 완료
+
+7. ssh 설치 
+라즈베리파이에 접속하기 위해 sudo apt-get install ssh 설치
+8. 커널 이미지 파일 이동
+cd arch/arm/boot로 이동 후 zImage확인
+scp zImage pi@192.168.35.242:/home/pi/ 로 라즈베리파이로 커널 이미지 파일 이동
+
+9. 파일 이동
+cd arch/arm/boot/dts로 이동
+scp *.dtb pi@192.168.35.242:/home/pi/ 명령어로 라즈베리파이로 파일 이동
+scp overlays/*.dtb* pi@192.168.35.242:/home/pi/ 명령어로 라즈베리파이로 파일 이동
+
+module 파일로 이동
+cd lib/modules/5.xx ~폴더로 이동 후 build와 source 파일 삭제
+rm -rf build source (삭제르 안하면 전송간에 시간이 오래 걸림)
+cd ..로 나온 후, scp -r 5.xx/ pi@192.168.35.242:/home/pi
+```
+
 ## Reference
 
 [시스템 콜 참고 영상](https://www.youtube.com/watch?v=lhToWeuWWfw)
