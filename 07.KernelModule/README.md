@@ -100,3 +100,117 @@ OBJS = hello.o
 all : $(OBJS)
 clean : rm -f *.o *.~
 ```
+
+#### 커널 모듈 명령어
+
+```
+1. insmod: module을 설치(install)
+2. rmmod: 실행중인 modules을 제거(unload)
+3. lsmod: Load된 module들의 정보를 표시
+4. depmod: Module들의 symbol들을 이용하여 Makefile과 유사한 dependency file을 생성
+5. modprobe: depmod 명령으로 생성된 dependency를 이용하여 지정된
+             디렉토리의 module들과 연관된 module들을 자동으로 load
+6. modinfo: 목적 파일을 검사해서 관련된 정보를 표시
+```
+
+* 설치된 모듈 설치 및 제거
+    - 설치된 모듈은 '/proc/modules' 파일에 기록
+    - '/proc/modules' 파일을 이용한 현재 설치된 모듈을 확인 가능
+      + #cat /proc/modules
+
+## [2] 실습
+
+### 커널 모듈 프로그램 작성
+
+* 모듈 적재 및 제거 시에 간단한 메시지 로그를 출력하는 모듈 작성
+
+```
+1. 모듈 적재 시에 호출되는 init_module()함수에서 printk() 함수를 이용하여 모듈 로딩(loading) 메시지를 출력
+2. 모듈 제거 시에 호출되는 cleanup_module()함수에서 같은 방법으로 모듈 언로딩(unloading) 메시지를 출력
+```
+
+* 모듈 작성 및 테스트
+  - 모듈 프로그램 소스 파일 hello_m.c 작성
+
+```c++
+#include <linux/module.h> // Needed by all modules
+#include <linux/kernel.h> // Need for KERN_ALERT
+
+int init_module(void) {
+  printk("<1>hello module loaded\n");
+  
+  // A non 0 return means init_module failed
+  return 0;
+}
+
+void cleanup_module(void) {
+  printk(KERN_ALERT "hello module unloaded\n");
+}
+```
+
+* 함수 printk()의 인수
+  - File "/lib/modules/'uname -r'/build/include/linux/kernel.h"에 정의
+ 
+```
+#define KERN_EMERG    // "<0>"    // system is unsable
+#define KERN_ALERT    // "<1>"    // action must be taken immediately
+#define KERN_CRIT     // "<2>"    // critical conditions
+#define KERN_ERR      // "<3>"    // error conditions
+#define KERN_WARNING  // "<4>"    // warning conditions
+#define KERN_NOTICE   // "<5>"    // normal but significant condition
+#define KERN_INFO     // "<6>"    // informational
+#define KERN_DEBUG    // "<7>"    // debug-level messages
+```
+
+#### module_init / module_exit 사용
+
+```c++
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+
+static int hello_init(void) {
+  printk(KERN_ALERT "hello module loaded\n");
+  return 0;
+}
+
+static void hello_exit(void) {
+  printk(KERN_ALERT "hello module unloaded\n");
+}
+
+module_init(hello_init);
+module_exit(hello_exit);
+```
+
+#### 모듈 컴파일
+
+```
+TARGET = hello_m
+WARN = -Wall -Wstrict-prototypes -Wmissing-prototypes
+INCLUDE = -isystem /lib/modules/'uname -r'/build/include
+CFLAGS = -O2 -DMODULE _D__KERNEL__ ${WARN} ${INCLUDE}
+CC = arm_linux_gcc
+
+$(TARGET).o: $(TARGET).c
+
+clean:
+    rm -rf $(TARGET).o
+```
+
+모듈 'hello_m.o'을 다운로드하고 다음과 같이 테스트 진행
+
+* 모듈 load 명령 줄
+  - #insmod hello.o
+
+* 모듈 load 확인 명령 줄
+  - #lsmod
+  - Module Size Used by
+  - hello  368  0 (unused)
+
+* 모듈 unload 명령 줄
+  - rmmod hello
+
+* printk() 메시지 확인
+  - # tail -2 /var/log/messages
+  - Oct 12 17:54:29 kernel: hello module loaded
+  - Oct 12 17:54:45 kernel: hello module unloaded
