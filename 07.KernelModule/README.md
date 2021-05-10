@@ -211,6 +211,6 @@ clean:
   - rmmod hello
 
 * printk() 메시지 확인
-  - # tail -2 /var/log/messages
+  - #tail -2 /var/log/messages
   - Oct 12 17:54:29 kernel: hello module loaded
   - Oct 12 17:54:45 kernel: hello module unloaded
