@@ -65,7 +65,7 @@ Kernel Module
 #include <linux/init.h>
 /* global variables */
 ...
-int init_module(void {}
+int init_module(void) {}
 void cleanup_module(void) {}
 ...
 ```
@@ -197,7 +197,7 @@ clean:
     rm -rf $(TARGET).o
 ```
 
-모듈 'hello_m.o'을 다운로드하고 다음과 같이 테스트 진행
+##### 모듈 'hello_m.o'을 다운로드하고 다음과 같이 테스트 진행
 
 * 모듈 load 명령 줄
   - #insmod hello.o
