@@ -32,7 +32,7 @@ system call을 통해서 커널의 명령들을 트리거 할 수 있는데, 트
 device driver에 해당하는 system call을 받게 되면, 거기에 따라 mapping되는 driver의 function이 실행된다.
 ```
 
-## [2]. Device Driver 종류
+## [2] Device Driver 종류
 
 * Char Driver
   * device를 file처럼 취급하고 접근하여 직접 read/write를 수행
@@ -81,3 +81,92 @@ device driver에 해당하는 system call을 받게 되면, 거기에 따라 map
     write: device_write
   } ;
  ```
+ 
+ 1. 디바이스 드라이버 작성
+ 2. mknod을 통해서 디바이스에 대한 파일을 생성
+ 3. insmod을 통해서 모듈 적재한다.
+ 4. 그러면 mknod을 통한 파일과 insmod을 통해서 적재한 것이 mapping이 된다.
+
+
+### Makefile
+
+```
+* Compile Options
+
+%arm-linux-gcc -c -D__KERNEL__ -DMODULE -Wall -02 -o test_dd.o
+-c: 모듈은 test_dd.o로 컴파일 되어야 하므로 -c 옵션 사용
+-__KERNEL__ _DMODULE: 커널에서 동작하고 모듈을 사용된다는 뜻
+-Wall: 경고를 다 출력해 준다는 의미
+-02: Compile과정에서 inline함수를 확장할 때 최적화 함
+```
+
+## [3] Driver를 커널에 모듈로 등록 및 해제
+
+```
+Char Device Driver 등록 방법
+ 1. 외부와 device driver는 file interface(node를 의미)를 통해 연결 => mknod를 통해
+ 2. Device driver는 자신을 구별하기 위해 고유의 major number를 사용
+
+장치의 등록과 해제
+ 1. 등록 : int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
+       - Major: 등록할 major number. 0이면 사용하지 않는 번호 중 자동으로 할당
+       - Name: device의 이름
+       - Fops: device에 대한 file 연산 함수들
+
+ 2. 해제 : int unregister_chrdev(unsigned int major, const char *name)
+```
+
+<div style="text-align:center;"><img src="https://user-images.githubusercontent.com/66770613/118427452-2bf48a80-b708-11eb-988f-929f63737940.png"></div>  
+
+
+### Major number와 Minor number
+
+```
+1. 장치를 구분하는 방법으로 둘을 이용하여 특정 장치를 구별
+2. Major number: 커널에서 디바이스 드라이버를 구분하는 사용
+3. Minor number: 디바이스 드라이버 내에서 필요한 경우 장치를 구분하기 위해 사용
+4. 새로운 디바이스는 새로운 major number을 가져야 함
+5. register_chrdev()로 장치를 등록할 때 mjaor number를 지정
+6. 같은 major number가 등록되어 있으면 실패 (실패는 0 아래의 값을 반환한다)
+7. Major와 Minor번호는 파일의 정보를 담고 있는 inode의 i_rdev에 16bit로 저장된다.
+   상위 8bit는 major, 하위 8bit는 minor이다.
+```
+
+### mknod 명령으로 디바이스 드라이버에 접근할 수 있는 장치 파일 생성
+
+* mknod [device file name] [type] [major] [minor]
+ + Example) %mknod test_dd c 252 0 ==> c는 char device drive를 의미. block dvice driver은 b
+
+### mdev_t: 장치의 major, minor number를 표현하는 자료 구조
+
+* MAJOR(): kdev_t에서 major number를 얻어내는 매크로
+ + Example) MAJOR(inode->i_rdev);
+
+* MINOR(): kdev_t에서 minor number를 얻어내는 매크로
+* cat /porc/devices 명령으로 현재 로드된 디바이스 드라이버 확인
+
+
+### 커널에 등록할 때 쓰이는 명령어
+```
+insmod: 모듈을 설치(install)
+rmmod: 실행 중인 모듈을 제거(unload)
+lsmod: Load된 module들의 정보를 표시
+depmod: 모듈들의 symbol들을 이용하여 Makefile과 유사한 dependency file을 생성
+modprobe: depmod명령으로 생성된 dependency를 이용하여 지정된 디렉토리의 모듈들과 연관된 모듈들을 자동으로 load
+modinfo: 목적 파일을 검사해서 관련된 정보를 표시
+```
+
+## [4] 실습
+
+```
+1. 만든 드라이버 소스를 test_dd.c / test application은 test_app.c, 그리고 makefile은 Makefile로 작성 한 후 저장한다.
+2. make 명령어를 이용하여 위의 2개의 files을 컴파일 한다.
+   %make
+3. 생성된 test_dd.o와 test_app를 target board(Raspberry Pi)로 전송한다.
+```
+
+## [5] Summary
+
+<div style="text-align:center;"><img src="https://user-images.githubusercontent.com/66770613/118428128-b8537d00-b709-11eb-8f0d-3e752c28c72e.png"></div>  
+
+
