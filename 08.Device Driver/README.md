@@ -11,8 +11,7 @@
 4. 디바이스와 시스템 메모리 간에 data의 전달을 담당하는 kernel 내부 기능
 ```
 
-<div style="text-align:center;"><img src="https://user-images.githubusercontent.com/66770613/118423719-96a1c800-b700-11eb-89e2-5115bf8133ed.png
-"/> </div>
+<div style="text-align:center;"><img src="https://user-images.githubusercontent.com/66770613/118423719-96a1c800-b700-11eb-89e2-5115bf8133ed.png"></div>
 
 
 * 프로그램들이 system call interface을 통해서 커널의 자원을 사용할 수 있다.
