@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.mod := { echo  /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.o;  echo; } > /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.mod

@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.ko := arm-linux-gnueabihf-ld -r  -EL  --build-id=sha1  -T scripts/module.lds -o /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.ko /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.o /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.mod.o;  true

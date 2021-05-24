@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.mod := { echo  /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.o;  echo; } > /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.mod

@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.ko := arm-linux-gnueabihf-ld -r  -EL  --build-id=sha1  -T scripts/module.lds -o /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.ko /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.o /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.mod.o;  true

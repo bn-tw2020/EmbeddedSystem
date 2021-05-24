@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/07.KernelModule/modules.order := {   echo /home/bstudent/pi/EmbeddedSystem/07.KernelModule/hello_m.ko; :; } | awk '!x[$$0]++' - > /home/bstudent/pi/EmbeddedSystem/07.KernelModule/modules.order

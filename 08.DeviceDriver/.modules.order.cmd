@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/modules.order := {   echo /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/test_dd.ko; :; } | awk '!x[$$0]++' - > /home/bstudent/pi/EmbeddedSystem/08.DeviceDriver/modules.order
