@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.mod := { echo  /home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.o;  echo; } > /home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.mod

@@ -1,0 +1,1 @@
+cmd_/home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.ko := arm-linux-gnueabihf-ld -r  -EL  --build-id=sha1  -T scripts/module.lds -o /home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.ko /home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.o /home/bstudent/pi/EmbeddedSystem/09.GPIODriver/gpio_dev.mod.o;  true
