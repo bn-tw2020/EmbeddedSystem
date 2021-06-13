@@ -13,5 +13,5 @@ test_app: test_app.c
 	$(CROSS)gcc -o $@ $<
 
 clean:
-	make -C$(KDIR) M=$(sheel pwd) clean
+	make -C$(KDIR) M=$(shell pwd) clean
 	rm $(OBJECT)
